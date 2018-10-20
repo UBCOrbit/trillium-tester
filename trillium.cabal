@@ -1,0 +1,23 @@
+name:                trillium
+version:             0.1.0.0
+author:              UBC Orbit CDH
+copyright:           2018 UBC Orbit
+build-type:          Simple
+cabal-version:       >=1.10
+
+executable trillium
+  hs-source-dirs:      src
+  main-is:             Main.hs
+  other-modules:       Logging
+                     , Upset
+  default-language:    Haskell2010
+  build-depends:       base >= 4.7 && < 5
+                     , hstlink
+                     , bytestring
+                     , optparse-applicative
+                     , text
+                     , MonadRandom
+                     , mtl
+                     , time
+                     , pipes
+  ghc-options:         -O -Wall
