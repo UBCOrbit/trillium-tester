@@ -20,4 +20,8 @@ executable trillium
                      , mtl
                      , time
                      , pipes
+                     , normaldistribution
+                     , data-default
+                     , yaml
   ghc-options:         -O -Wall
+  default-extensions:  OverloadedStrings
