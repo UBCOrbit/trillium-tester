@@ -1,7 +1,8 @@
 {-# LANGUAGE RecordWildCards #-}
 
 module Probability
-  ()
+  ( upsetGenerator
+  )
 where
 
 import           Data.Random.Normal
