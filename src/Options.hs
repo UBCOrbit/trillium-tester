@@ -2,8 +2,10 @@
 
 module Options
   ( UpsetConfig(..)
-  , Args
+  , Args(..)
+  , Config(..)
   , argsInfo
+  , defaultConfig
   )
 where
 
@@ -50,23 +52,23 @@ instance FromJSON Config where
             o .: "memflip" <*>
             o .: "regflip"
 
--- defaultConfig :: Value
--- defaultConfig = [yamlQQ|
--- # all delays are in ms
--- upsets:
---   latchup:
---     enable: false
---     delay: 600000
---     stddev: 2000
---   memflip:
---     enable: true
---     delay: 100
---     stddev: 10
---   regflip:
---     enable: true
---     delay: 1000
---     stddev: 100
--- |]
+defaultConfig :: Value
+defaultConfig = [yamlQQ|
+# all delays are in ms
+upsets:
+  latchup:
+    enable: false
+    delay: 600000
+    stddev: 2000
+  memflip:
+    enable: true
+    delay: 100
+    stddev: 10
+  regflip:
+    enable: true
+    delay: 1000
+    stddev: 100
+|]
 
 data Args
   = Args { _argConfigFile :: Maybe FilePath
