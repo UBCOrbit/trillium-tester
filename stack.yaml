@@ -6,6 +6,6 @@ extra-deps:
   - bindings-libusb-1.4.5.0
   - normaldistribution-1.1.0.3
   - git: https://github.com/UBCOrbit/hstlink.git
-    commit: master
+    commit: d34896970e21f1de831dffd10081c4eb1d3b294c
 nix:
   packages: [ libusb pkgconfig ]

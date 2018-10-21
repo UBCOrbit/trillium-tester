@@ -1,6 +1,7 @@
 module Logging
   ( Tester
   , Message(..)
+  , LogMessage
   , yieldLog
   )
 where

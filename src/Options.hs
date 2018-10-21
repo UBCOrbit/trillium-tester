@@ -13,6 +13,7 @@ import           Data.Default
 import           Data.Yaml                         hiding ( Parser )
 import           Data.Yaml.TH                             ( yamlQQ )
 import           Data.Semigroup                           ( (<>) )
+import qualified Data.ByteString               as BS
 
 import           Options.Applicative
 
@@ -52,8 +53,8 @@ instance FromJSON Config where
             o .: "memflip" <*>
             o .: "regflip"
 
-defaultConfig :: Value
-defaultConfig = [yamlQQ|
+defaultConfig :: BS.ByteString
+defaultConfig = encode [yamlQQ|
 # all delays are in ms
 upsets:
   latchup:
