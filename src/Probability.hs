@@ -24,13 +24,13 @@ genNormal s = do
 multiTimer :: MonadIO m => [(UpsetConfig, Producer a m ())] -> Producer a m ()
 multiTimer l = do
   (outbox, inbox) <- liftIO $ spawn unbounded
-  let pipes = (f outbox <$> l)
+  let pipes = f outbox <$> l
   _ <- lift $ traverse (liftIO . forkIO . runEffect) pipes
   for (fromInput inbox) id
   where f o (c, a) = singleTimer c a >-> toOutput o
 
 singleTimer :: MonadIO m => UpsetConfig -> a -> Producer a m ()
-singleTimer c@(UpsetConfig {..}) a = do
+singleTimer c@UpsetConfig {..} a = do
   delay <- liftIO $ genNormal (_upsetDelayMean, _upsetDelayStddev)
   liftIO $ threadDelay (floor (delay * 1000))
   yield a
