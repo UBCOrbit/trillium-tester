@@ -16,4 +16,14 @@ before_install:
 - export PATH=$HOME/.local/bin:$PATH
 - travis_retry curl -L https://get.haskellstack.org/stable/linux-x86_64.tar.gz | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
 script:
-- stack build
+- stack build --split-objs
+- cp .stack-work/install/*/*/*/bin/trillium .
+- tar -c -v -J -f trillium.tar.xz --numeric-owner trillium
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file: "trillium.tar.xz"
+  skip-cleanup: true
+  on:
+    repo: UBCOrbit/trillium-tester
+    tags: true
