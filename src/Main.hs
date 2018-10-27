@@ -30,7 +30,8 @@ getConfig (Just f) = decodeFileThrow f
 startGenerators :: Config -> IO ()
 startGenerators Config {..} = do
   let pipe = multiTimer gens
-  _ <- withAutoBoard $
+  _ <- withAutoBoard $ do
+    enterMode DebugSWD
     runEffect $ for pipe (liftIO . print)
   pure ()
   where gens = [(_configLatchup, latchup), (_configRegFlip, flipBitInReg)]

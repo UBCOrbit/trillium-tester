@@ -30,7 +30,7 @@ multiTimer l = do
   where f o (c, a) = singleTimer c a >-> toOutput o
 
 singleTimer :: MonadIO m => UpsetConfig -> a -> Producer a m ()
-singleTimer c@UpsetConfig {..} a = do
+singleTimer c@UpsetConfig {..} a = when _upsetEnable $ do
   delay <- liftIO $ genNormal (_upsetDelayMean, _upsetDelayStddev)
   liftIO $ threadDelay (floor (delay * 1000))
   yield a
