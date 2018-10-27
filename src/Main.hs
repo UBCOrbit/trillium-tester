@@ -13,12 +13,10 @@ import           Data.Yaml                                ( decodeThrow
                                                           )
 import qualified Data.ByteString               as BS
 
--- import Control.Concurrent
-import Pipes
-
-import Probability
-import Upset
-import STLink
+import           Pipes
+import           STLink
+import           Probability
+import           Upset
 
 main :: IO ()
 main = execParser argsInfo >>= \Args {..} -> case _argWriteConfig of
@@ -31,7 +29,8 @@ getConfig (Just f) = decodeFileThrow f
 
 startGenerators :: Config -> IO ()
 startGenerators Config {..} = do
-  let pipeline = upsetGenerator latchup _configLatchup `for` (liftIO . print)
-  void . withAutoBoard $ do
-    enterMode DebugSWD
-    runEffect pipeline
+  let pipe = multiTimer gens
+  _ <- withAutoBoard $ do
+    runEffect $ for pipe (liftIO . print)
+  pure ()
+  where gens = [(_configLatchup, latchup), (_configRegFlip, flipBitInReg)]

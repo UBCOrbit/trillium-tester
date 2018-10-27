@@ -1,18 +1,19 @@
 {-# LANGUAGE RecordWildCards #-}
 
 module Probability
-  ( upsetGenerator
+  ( multiTimer
   )
 where
 
 import           Data.Random.Normal
 
 import           Control.Monad.Random
-import           Control.Concurrent
+import           Control.Concurrent                hiding ( yield )
 
-import           Upset
+import           Pipes
+import           Pipes.Concurrent
+
 import           Options
-import           Logging
 
 genNormal
   :: (MonadSplit g m, RandomGen g, Random a, Floating a) => (a, a) -> m a
@@ -20,9 +21,17 @@ genNormal s = do
   gen <- getSplit
   pure . fst $ normal' s gen
 
-upsetGenerator :: Tester () -> UpsetConfig -> Tester ()
-upsetGenerator upset c@(UpsetConfig {..}) = when _upsetEnable $ do
+multiTimer :: MonadIO m => [(UpsetConfig, Producer a m ())] -> Producer a m ()
+multiTimer l = do
+  (outbox, inbox) <- liftIO $ spawn unbounded
+  let pipes = (f outbox <$> l)
+  _ <- lift $ traverse (liftIO . forkIO . runEffect) pipes
+  for (fromInput inbox) id
+  where f o (c, a) = singleTimer c a >-> toOutput o
+
+singleTimer :: MonadIO m => UpsetConfig -> a -> Producer a m ()
+singleTimer c@(UpsetConfig {..}) a = do
   delay <- liftIO $ genNormal (_upsetDelayMean, _upsetDelayStddev)
   liftIO $ threadDelay (floor (delay * 1000))
-  upset
-  upsetGenerator upset c
+  yield a
+  singleTimer c a

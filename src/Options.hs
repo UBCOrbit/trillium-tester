@@ -38,7 +38,8 @@ instance FromJSON UpsetConfig where
     v .: "stddev"
 
 data Config
-  = Config { _configLatchup :: UpsetConfig
+  = Config
+  { _configLatchup :: UpsetConfig
            , _configMemFlip :: UpsetConfig
            , _configRegFlip :: UpsetConfig
            }

@@ -22,6 +22,7 @@ executable trillium
                      , mtl
                      , time
                      , pipes
+                     , pipes-concurrency
                      , normaldistribution
                      , data-default
                      , yaml
