@@ -18,12 +18,13 @@ before_install:
 script:
 - stack build --split-objs
 - cp .stack-work/install/*/*/*/bin/trillium .
-- tar -c -v -J -f trillium.tar.xz --numeric-owner trillium
+- >
+    tar -c -v -J -f trillium-tester-linux-x86_64-$(grep -Po 'version: *\K[0-9.]+' trillium.cabal).tar.xz --numeric-owner trillium
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
-  file: "trillium.tar.xz"
+  file: "trillium-*.tar.xz"
   skip-cleanup: true
   on:
     repo: UBCOrbit/trillium-tester
-    tags: true
+    tags: tru

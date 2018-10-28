@@ -2,6 +2,8 @@ before_build:
 - set PATH=C:\Program Files\Git\mingw64\bin;%PATH%
 - curl -sS -ostack.zip -L --insecure http://www.stackage.org/stack/windows-x86_64
 - 7z x stack.zip stack.exe
+- set PATH=C:\msys64\usr\bin;%PATH%
+- pacman -Sy mingw64/mingw-w64-x86_64-libusb pkg-config --noconfirm
 
 clone_folder: "c:\\stack"
 environment:
@@ -11,4 +13,4 @@ environment:
 
 build_script:
 - stack setup
-- stack build
+- stack build --extra-include-dirs=C:\msys64\mingw64\include\libusb-1.0 --extra-lib-dirs=C:\msys64\mingw64\lib
