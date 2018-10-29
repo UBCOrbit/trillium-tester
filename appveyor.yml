@@ -13,4 +13,19 @@ environment:
 
 build_script:
 - stack setup
-- stack build --extra-include-dirs=C:\msys64\mingw64\include\libusb-1.0 --extra-lib-dirs=C:\msys64\mingw64\lib
+- stack build --extra-include-dirs=C:\msys64\mingw64\include\libusb-1.0 --extra-lib-dirs=C:\msys64\mingw64\bin
+- sh: cp .stack-work/*/bin/trillium.exe .
+- sh: >
+    mv trillium.exe trillium-windows-x86_64-$(grep -Po 'version: *\K[0-9.]+' trillium.cabal).exe
+
+deploy:
+  release: trillium-tester-$(appveyor_build_version)
+  provider: GitHub
+  auth_token:
+    secure: 4qw1Dg0GFj2kJVi7uCOm6AYeNUGHpvCejJVC0HJp+uvQVofMJNh9U6Cu29O4VuN9
+  artifact: /trillium.*.exe/
+  draft: false
+  prerelease: false
+  on:
+    branch: master
+    appveyor_repo_tag: true
