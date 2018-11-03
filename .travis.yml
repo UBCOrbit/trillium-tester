@@ -28,4 +28,4 @@ deploy:
   skip-cleanup: true
   on:
     repo: UBCOrbit/trillium-tester
-    tags: tru
+    tags: true
