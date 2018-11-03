@@ -36,4 +36,4 @@ Source: "wdi-simple.exe"; DestDir: "{app}"; Flags: replacesameversion promptifol
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 
 [Run]
-Filename: "{app}\wdi-simple.exe"; Flags: "runhidden"; Parameters: " --name HSTLink --vid 0x0483 --pid 0x374b -t 1 --progressbar={wizardhwnd} --timeout 120000"; StatusMsg: "Installing USB driver...";
+Filename: "{app}\wdi-simple.exe"; Flags: "runhidden"; Parameters: " --name HSTLink --vid 0x0483 --pid 0x374b --progressbar={wizardhwnd} --timeout 120000"; StatusMsg: "Installing USB driver...";
