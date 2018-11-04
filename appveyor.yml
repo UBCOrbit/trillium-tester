@@ -24,12 +24,15 @@ build_script:
 - cd ..
 - dir
 
+artifacts:
+  - path: 'trillium-tester-windows-*.exe'
+
 deploy:
-  release: trillium-tester-$(appveyor_build_version)
   provider: GitHub
   auth_token:
     secure: 4qw1Dg0GFj2kJVi7uCOm6AYeNUGHpvCejJVC0HJp+uvQVofMJNh9U6Cu29O4VuN9
-  artifact: /trillium-tester-windows-*.exe/
+  artifact: /trillium-tester-windows-.*\.exe/
+  description: Automatic windows build
   draft: false
   prerelease: false
   on:
